@@ -2,35 +2,27 @@
 
 
 
-// 
-
-open file 
-read file
-first letter in letter
-second part dans number 
 
 
-loop trew list 
+/* 
 
-sum = 0
+!!!!!!!!!!!!!!! work in progress !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-+ 5 
-+ 49
-- 42 
-
-
-tableau d'int de 0 a 99
-[99, 98, 97, 96, 95, 94, ]
-
-
-
-94, 
-
+to do
+[] open file
+[] read file
+[] create a struct
+[] the first letter l or r in letter
+[] second part must be int dans number
+[] create an array from 0 to 99  
+[] loop trew list 
+[] if l go right in the array "it like a clock"
+[] if r go left in the array 
 
 //exemple 
-/* 
+
 L30
-R48
+R48The dial starts by pointing at 50.
 L5
 R60
 L55
@@ -51,7 +43,7 @@ The dial is rotated L1 to point at 99.
 The dial is rotated L99 to point at 0.
 The dial is rotated R14 to point at 14.
 The dial is rotated L82 to point at 32.
-/*
+
 
 
 make an array from 99 to 0 
@@ -67,5 +59,5 @@ the pointeur would go to O it would make 50 right and then goes backto 0 at the 
 it wil rest 18 moving riight
 so 99 98 97 etc to 82
 
-then
 
+/*
