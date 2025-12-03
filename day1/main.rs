@@ -1,12 +1,31 @@
+use std::fs::File;
+use std::io::prelude::*;
+use std::path::Path;
 
+fn main()
+{
 
+   
+    let my_dir = "L26";
+    let num = &my_dir[1..];
+    let distance = &my_dir[..1];
+    println!("distance is alphabet {}", distance.chars().isalphabetic());    
 
+    println!("{:?}", num);
+    println!("{:?}", distance);
+    
+    let m_string = num.to_string();
+    let num_toint: i32 = m_string.parse::<i32>().unwrap();
 
+    println!("{:?}", num_toint);
+    let my_string = "27".to_string();
+    let my_int: i32 = my_string.parse::<i32>().unwrap();
+    println!("{:?}", my_int);
+}
 
 
 /* 
-
-!!!!!!!!!!!!!!! work in progress !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ !!!!!!!!!
 
 to do
 [] open file
@@ -19,7 +38,7 @@ to do
 [] if l go right in the array "it like a clock"
 [] if r go left in the array 
 
-//exemple 
+exemple 
 
 L30
 R48The dial starts by pointing at 50.
@@ -58,6 +77,4 @@ for  L68
 the pointeur would go to O it would make 50 right and then goes backto 0 at the begining
 it wil rest 18 moving riight
 so 99 98 97 etc to 82
-
-
-/*
+*/
