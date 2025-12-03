@@ -3,24 +3,19 @@ use std::io::prelude::*;
 use std::path::Path;
 
 fn main()
-{
-
-   
+{ 
     let my_dir = "L26";
     let num = &my_dir[1..];
-    let distance = &my_dir[..1];
-    println!("distance is alphabet {}", distance.chars().isalphabetic());    
-
-    println!("{:?}", num);
-    println!("{:?}", distance);
-    
-    let m_string = num.to_string();
-    let num_toint: i32 = m_string.parse::<i32>().unwrap();
-
-    println!("{:?}", num_toint);
-    let my_string = "27".to_string();
-    let my_int: i32 = my_string.parse::<i32>().unwrap();
-    println!("{:?}", my_int);
+    let letter = &my_dir[..1];    
+    if let Some(c) = letter.chars().next() {
+        println!("my letter: {}", c);
+    } else 
+    {
+        println!("String is empty");
+    }
+    let time_string = num.to_string();
+    let time: i32 = time_string.parse::<i32>().unwrap();
+    println!("number of moove: {}", time);
 }
 
 
