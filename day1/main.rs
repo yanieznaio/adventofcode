@@ -22,50 +22,64 @@ fn main()
     //element just to watch with an index.
     //so then it will be the array;
     let arr: [u32; 100] = from_fn(|i| i as u32);
-    let initialcount = 50;
-    let countzero = 0;
-    println!("{:?}", arr);
-    let my_dir = "L26";
-    let num = &my_dir[1..];
-    let letter = &my_dir[..1];    
-    if let Some(c) = letter.chars().next() {
-        println!("my letter: {}", c);
-    } else 
-    {
-        println!("String is empty");
-    }
-    let time_string = num.to_string();
-    let time: i32 = time_string.parse::<i32>().unwrap();
-    println!("number of moove: {}", time);
-
-
+    let mut initial = 50;
+    let mut countzero = 0;
+    println!("{:?}", arr); 
+    
     // now its time to open file;
-    if let Ok(lines) = read_lines("./file.txt") {
+    if let Ok(lines) = read_lines("./file2.txt") {
         // Consume the iterator , returns an (optional) String
         for line in lines.map_while(Result::ok){
             let instruction = line.clone();
             let num = &instruction[1..];
             let letter = &instruction[..1];
-            if let Some(c) = letter.chars().next(){
+            /*if let Some(c) = letter.chars().next(){
                 println!("my letter: {}", c);
             } else 
             {
                 println!("String is empty");
-            }
+            }*/
             let time_string = num.to_string();
-            let time: i32 = time_string.parse::<i32>().unwrap();
-            println!("number of moove: {} ", time);
-            if letter.chars().next() == Some('L'){
-                // if its equal to l turn time to negative
-                let new_time = -time;
-                println!("number of new moove: {}", new_time);
+            let mut time: i32 = time_string.parse::<i32>().unwrap();
+            println!("instruction {}{} ",letter, time);
+
+            if letter.chars().next() == Some('R'){
+                //if its equal to right make sum; 
+                // count each click 
+                let pass_by_zero = time / 100; 
+                countzero += pass_by_zero;
+
+                time = time % 100;
+                initial = (initial + pass_by_zero
+                println!("Go to point :{}", initial);
             }
+
+            else if letter.chars().next() == Some('L')
+            {
+                
+                println!("initial {} - time {} = {}", initial, time, initial - time);
+                for _ in 0..time {
+                    initial = initial - 1;
+                    if initial < 0 {
+                        initial = 99;
+                    }
+                    if initial == 0{
+                        countzero += 1;
+                        println!(" -> clicked thgrough 0!")
+                    }
+                    
+                }
+                println!("Go to point:{}", initial);
+            }
+      
+
         println!("{}", line);
         // here push in array if L put minus before;
         //find the algo for this
         // if at the instruct current + instruction its equal a 0
         // increment the counteer of zero.
         }
+        println!("final count zero {}", countzero - 1);
     }
     // return the counterofzero
     // extract line;
