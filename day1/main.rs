@@ -45,29 +45,26 @@ fn main()
 
             if letter.chars().next() == Some('R'){
                 //if its equal to right make sum; 
-                // count each click 
-                let pass_by_zero = time / 100; 
-                countzero += pass_by_zero;
-
-                time = time % 100;
-                initial = (initial + pass_by_zero
-                println!("Go to point :{}", initial);
+               initial = initial + time; 
+               if initial >= 100{
+                    initial = initial % 100;
+               }
+               if initial == 0{
+                    countzero += 1;
+               }
+               println!("Go to point: {}", initial);
             }
 
             else if letter.chars().next() == Some('L')
             {
+                initial = initial - time;
                 
-                println!("initial {} - time {} = {}", initial, time, initial - time);
-                for _ in 0..time {
-                    initial = initial - 1;
-                    if initial < 0 {
-                        initial = 99;
-                    }
-                    if initial == 0{
-                        countzero += 1;
-                        println!(" -> clicked thgrough 0!")
-                    }
-                    
+                // handle negative wrapping
+                while initial < 0 {
+                    initial = initial + 100;
+                } 
+                if initial == 0 {
+                    countzero += 1;
                 }
                 println!("Go to point:{}", initial);
             }
@@ -79,7 +76,7 @@ fn main()
         // if at the instruct current + instruction its equal a 0
         // increment the counteer of zero.
         }
-        println!("final count zero {}", countzero - 1);
+        println!("final count zero {}", countzero);
     }
     // return the counterofzero
     // extract line;
