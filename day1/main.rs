@@ -27,7 +27,7 @@ fn main()
     println!("{:?}", arr); 
     
     // now its time to open file;
-    if let Ok(lines) = read_lines("./file2.txt") {
+    if let Ok(lines) = read_lines("./file.txt") {
         // Consume the iterator , returns an (optional) String
         for line in lines.map_while(Result::ok){
             let instruction = line.clone();
@@ -43,30 +43,36 @@ fn main()
             let mut time: i32 = time_string.parse::<i32>().unwrap();
             println!("instruction {}{} ",letter, time);
 
-            if letter.chars().next() == Some('R'){
-                //if its equal to right make sum; 
-               initial = initial + time; 
-               if initial >= 100{
-                    initial = initial % 100;
-               }
-               if initial == 0{
-                    countzero += 1;
-               }
-               println!("Go to point: {}", initial);
-            }
-
-            else if letter.chars().next() == Some('L')
-            {
-                initial = initial - time;
+            if letter.chars().next() == Some('R') {
+                let total_rotation = initial + time;
+                let times_crossed = total_rotation / 100;
+                countzero += times_crossed;
                 
-                // handle negative wrapping
-                while initial < 0 {
-                    initial = initial + 100;
-                } 
+                initial = (initial + time) % 100;
+                
+                // Also check if we LAND on 0
                 if initial == 0 {
                     countzero += 1;
                 }
-                println!("Go to point:{}", initial);
+                
+                println!("Go to point: {}", initial);
+            }
+            else if letter.chars().next() == Some('L') {
+                let times_crossed = if time > initial {
+                    (time - initial + 99) / 100
+                } else {
+                    0
+                };
+                countzero += times_crossed;
+                
+                initial = ((initial - time) % 100 + 100) % 100;
+                
+                // Also check if we LAND on 0
+                if initial == 0 {
+                    countzero += 1;
+                }
+                
+                println!("Go to point: {}", initial);
             }
       
 
