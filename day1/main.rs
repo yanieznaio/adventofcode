@@ -22,72 +22,48 @@ fn main()
     //element just to watch with an index.
     //so then it will be the array;
     let arr: [u32; 100] = from_fn(|i| i as u32);
-    let mut initial = 50;
+    let mut position = 50;
     let mut countzero = 0;
     println!("{:?}", arr); 
     
     // now its time to open file;
     if let Ok(lines) = read_lines("./file.txt") {
-        // Consume the iterator , returns an (optional) String
-        for line in lines.map_while(Result::ok){
-            let instruction = line.clone();
-            let num = &instruction[1..];
+        for line in lines.map_while(Result::ok) {
+            let instruction = line.trim();
             let letter = &instruction[..1];
-            /*if let Some(c) = letter.chars().next(){
-                println!("my letter: {}", c);
-            } else 
-            {
-                println!("String is empty");
-            }*/
-            let time_string = num.to_string();
-            let mut time: i32 = time_string.parse::<i32>().unwrap();
-            println!("instruction {}{} ",letter, time);
-
-            if letter.chars().next() == Some('R') {
-                let total_rotation = initial + time;
-                let times_crossed = total_rotation / 100;
-                countzero += times_crossed;
-                
-                initial = (initial + time) % 100;
-                
-                // Also check if we LAND on 0
-                if initial == 0 {
-                    countzero += 1;
+            let distance: i32 = instruction[1..].parse().unwrap();
+            
+            println!("Instruction: {} (from position {})", instruction, position);
+            
+            // Count every time we click through position 0
+            if letter == "R" {
+                // Moving right: count how many times we pass 0
+                // We pass 0 when going from 99 to 0
+                for _ in 0..distance {
+                    position = (position + 1) % 100;
+                    if position == 0 {
+                        countzero += 1;
+                    }
                 }
-                
-                println!("Go to point: {}", initial);
-            }
-            else if letter.chars().next() == Some('L') {
-                let times_crossed = if time > initial {
-                    (time - initial + 99) / 100
-                } else {
-                    0
-                };
-                countzero += times_crossed;
-                
-                initial = ((initial - time) % 100 + 100) % 100;
-                
-                // Also check if we LAND on 0
-                if initial == 0 {
-                    countzero += 1;
+            } 
+            else if letter == "L" {
+                // Moving left: count how many times we pass 0
+                // We pass 0 when going from 1 to 0, or wrapping from 0 to 99 then eventually to 0
+                for _ in 0..distance {
+                    position = (position - 1 + 100) % 100;
+                    if position == 0 {
+                        countzero += 1;
+                    }
                 }
-                
-                println!("Go to point: {}", initial);
             }
-      
-
-        println!("{}", line);
-        // here push in array if L put minus before;
-        //find the algo for this
-        // if at the instruct current + instruction its equal a 0
-        // increment the counteer of zero.
+            
+            println!("Now at position: {}, total zeros so far: {}", position, countzero);
         }
-        println!("final count zero {}", countzero);
-    }
     // return the counterofzero
     // extract line;
     // asigned to temp variable
     // and push to a list each time
+    }
 }
 
 
