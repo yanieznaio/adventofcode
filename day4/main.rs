@@ -8,8 +8,9 @@ fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>where
     Ok(io::BufReader::new(file).lines())
 }
 
-
-fn check_adjacent(vec: &Vec<Vec<char>>, i, j) -> i32 {
+// this function return the number of paper roll on the 8 adjacent pos
+// of the current pos
+fn check_adjacent(vec: &Vec<Vec<char>>, i : usize, j : usize) -> i32 {
     let mut count = 0;
 
     /*
@@ -19,55 +20,68 @@ fn check_adjacent(vec: &Vec<Vec<char>>, i, j) -> i32 {
     bas gauche [currow + 1][curcol -1]                                         
     bas droite [currow + 1][curcol +1 ]  
     */
-
+    let rows = vec.len() - 1;
+    let cols = vec[0].len() - 1; // assumin non empty  and unifirom 
     
     if j > 0 {
         // gauche
-        if vec[i][j - 1] == '@'
+        if vec[i][j - 1] == '@' {
             count += 1;
+        }
         if i > 0 {
             // bas gauche
-            if vec[i - 1][j - 1] == '@'
+            if vec[i - 1][j - 1] == '@' {
                 count += 1;
+            }
         }
         // check if we can icrement i 
-        if i < numrow { 
+        if i < rows { 
            //bas gauche
-           if vec[i + 1][j - 1] == '@'
+           if vec[i + 1][j - 1] == '@' {
                count += 1;
+            }
         }
     }
-    if j < numcol {
+    if j < cols {
         // droite
-        if vec[i][j + 1] == '@'
+        if vec[i][j + 1] == '@' {
             count += 1;
+        }
     }
     if i > 0 {
         //haut
-        if vec[i - 1][j] == '@'
+        if vec[i - 1][j] == '@' {
             count += 1;
-        if j < numcol {
+        }
+        if j < cols {
             // haut droite
-            if vec[i - 1][j + 1] == '@'
+            if vec[i - 1][j + 1] == '@' {
                 count += 1;
+            }
         }
   
     }
-    if i < numrow {
+    if i < rows {
         // bas
-        if vec[i + 1][j] == '@'
+        if vec[i + 1][j] == '@' {
              count += 1;
+        }
         // bas droitre
-        if j < numcol {
-            if vec[i + 1][j + 1] == '@'
+        if j < cols {
+            if vec[i + 1][j + 1] == '@' {
                 count += 1;
+            }
         }
     }
-
+    
     count
 }
 
-fn loop_vec(vec: &Vec<Vec<char>>) -> i32
+fn remove_roll(vec : &mut Vec<Vec<char>>, i : usize , y : usize){
+    vec[i][y] = 'x'
+}
+
+fn loop_vec(vec: &mut Vec<Vec<char>>) -> i32
 {
     let mut count = 0;
     // check all the ajacent pos
@@ -76,29 +90,46 @@ fn loop_vec(vec: &Vec<Vec<char>>) -> i32
         for (j, &c) in row.iter().enumerate() {
             if c == '@'{
                 println!("Found '{}' at i = {}, j = {}", c, i, j);
-                if check_adjacent(vec, i, j) < 4
-                    count += 1
+                if check_adjacent(vec, i, j) < 4 {
+                    count += 1;
+                    //remove roll if < 4
+                    remove_roll(vec, i, j);
+                }
             }
         }
     } 
     // return count 
-    count 
+    count
 }
 
 fn main(){
     let mut count = 0;
+    let rm_possible = true;
     let mut vec_2d:Vec<Vec<char>> = Vec::new();
     if let Ok(lines) = read_lines("./file.txt"){
         for line in lines.map_while(Result::ok){
             let id_string = line.trim().to_string();
+            if line.is_empty() {
+                continue;
+            }
             let chars: Vec<char> = id_string.chars().collect();
             vec_2d.push(chars);
             println!("{}", id_string);
         }
     }
     println!("{:?}", vec_2d);
-    //loop trew vecteur , check all adjecent
-    count = loop_vec(&vec_2d);
+    //loop trew vecteur and remove possible roll till is possibi    // to remove
+    while rm_possible
+    {
+        let currcount = loop_vec(&mut vec_2d);
+        if currcount == 0 {
+            let _rm_possible = false;
+            continue;
+        }
+        else {
+            count += currcount;
+        }
+    }
     println!{"{}", count};
 }
 
