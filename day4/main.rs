@@ -84,12 +84,14 @@ fn remove_roll(vec : &mut Vec<Vec<char>>, i : usize , y : usize){
 fn loop_vec(vec: &mut Vec<Vec<char>>) -> i32
 {
     let mut count = 0;
+    let rows  = vec.len();
     // check all the ajacent pos
     // check all the adjactent row
-    for (i, row) in vec.iter().enumerate() {
-        for (j, &c) in row.iter().enumerate() {
-            if c == '@'{
-                println!("Found '{}' at i = {}, j = {}", c, i, j);
+    for i in 0..rows {
+        let cols = vec[i].len();
+        for j in 0..cols {
+            if vec[i][j] == '@'{
+                println!("Found '{}' at i = {}, j = {}", vec[i][j], i, j);
                 if check_adjacent(vec, i, j) < 4 {
                     count += 1;
                     //remove roll if < 4
@@ -104,7 +106,7 @@ fn loop_vec(vec: &mut Vec<Vec<char>>) -> i32
 
 fn main(){
     let mut count = 0;
-    let rm_possible = true;
+    let mut rm_possible = true;
     let mut vec_2d:Vec<Vec<char>> = Vec::new();
     if let Ok(lines) = read_lines("./file.txt"){
         for line in lines.map_while(Result::ok){
@@ -123,8 +125,7 @@ fn main(){
     {
         let currcount = loop_vec(&mut vec_2d);
         if currcount == 0 {
-            let _rm_possible = false;
-            continue;
+            rm_possible = false;
         }
         else {
             count += currcount;
@@ -163,7 +164,7 @@ if so count_roll_to_aceed ++;
 if the row is 0 there will be no upper 
 if the col is 0 there will be no left 
 if the col is length - 1 there will be no right
-if the row is length  - 1 there will be no dow(bas)
+if the row is length  - 1 there will be no down(bas)
 */
 
 
