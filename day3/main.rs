@@ -80,4 +80,37 @@ addition the number in
 from start index of bigger(not compris) and end,
 then sum += those the number
 return the sum
+
+Need 12 digits from 15 available
+Algorithm to Find Maximum Joltage
+Steps:
+
+Initialize: Start at position 0 of the digit sequence. You need to select exactly 12 digits.
+For each selection (repeat 12 times):
+
+Calculate how many digits you still need to select
+Calculate the search window: you can look ahead up to position (total_length - digits_still_needed + 1)
+Within this search window, find the largest digit
+Select the first occurrence of that largest digit
+Move your starting position to right after the selected digit
+
+
+Concatenate all 12 selected digits to form the maximum joltage number.
+
+Why it works:
+
+Search window constraint: Ensures you always have enough digits remaining to complete your selection
+Greedy choice: Always picking the largest available digit at each step maximizes the final number
+Order preservation: Only selecting digits in their original sequence order (never rearranging)
+
+Example (234234234234278 → 434234234278):
+
+Need 12 from 15 digits (can skip 3)
+Position 1: Search first 4 positions "2342" → max is '4' at position 3 → select '4'
+Position 2: Search "2342" → max is '4' at position 3 → select '4'
+Continue this pattern...
+Result: Skip the first "23", then take remaining digits optimally
+
+The key insight: maximize early positions first since they have the most impact on the final number's value
+
  */
