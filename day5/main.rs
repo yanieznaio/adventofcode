@@ -19,26 +19,26 @@ fn check_if_in_range(ingredient: String, id_range: String) -> i32
 
     if ingredient >= min && ingredient <= max
     {
-        1
+        return 1;
     }
     0   
 }
 
 
-fn checkallrange(all_id_range : vec, ingredient: String) -> i32
+fn checkallrange(all_id_range: &Vec<String>>, ingredient: String) -> i32
 {
     let mut i = 0;
 
     while i  < all_id_range.len()
     {
         if check_if_in_range(all_id_range[i], ingredient);
-            1
+            return 1;
         i++;
     }
     0
 }
 
-fn loopthrewvec(all_id_range, all_ingredient) -> i32
+fn loopthrewvec(all_id_range: &Vec<String>>, all_ingredient: &Vec<String>>) -> i32
 {
     let mut i = 0;
     let mut sum = 0;
@@ -72,8 +72,8 @@ fn main()
             }
         }
     }
-    let sum = looptrewvec(&all_id_range, &all_ingredient);
-    println("{}", sum);
+    let sum = loopthrewvec(&all_id_range, &all_ingredient);
+    printlni!("{}", sum);
     //println!("{:?}", all_id_range);
     //println!("{:?}", all_ingredients);
 }
