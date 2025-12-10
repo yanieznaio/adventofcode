@@ -10,42 +10,50 @@ fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>> wher
 }
 
 
-fn check_if_in_range(ingredient: String, id_range: String) -> i32
+fn check_if_in_range(id_range: String, ingredient: String) -> i32
 {
     //split a - 
     // convert to num
-    let mut min;
-    let mut max;
-
-    if ingredient >= min && ingredient <= max
+    if id_range.is_empty() || ingredient.is_empty()
+    {
+        return 0;
+    }
+    let chunks:Vec<&str> = id_range.split("-").collect();
+    let min: i64 = chunks[0].parse().unwrap();
+    let max: i64 = chunks[1].parse().unwrap();
+    let ingredient_num: i64 = ingredient.parse().unwrap();
+    
+    if ingredient_num >= min && ingredient_num <= max
     {
         return 1;
     }
-    0   
+    0  
 }
 
 
-fn checkallrange(all_id_range: &Vec<String>>, ingredient: String) -> i32
+fn checkallrange(all_id_range: &Vec<String>, ingredient: String) -> i32
 {
     let mut i = 0;
 
     while i  < all_id_range.len()
     {
-        if check_if_in_range(all_id_range[i], ingredient);
+        if check_if_in_range(all_id_range[i].clone(), ingredient.clone()) == 1
+        {
             return 1;
-        i++;
+        }
+        i+=1;
     }
     0
 }
 
-fn loopthrewvec(all_id_range: &Vec<String>>, all_ingredient: &Vec<String>>) -> i32
+fn loopthrewvec(all_id_range: &Vec<String>, all_ingredient: &Vec<String>) -> i32
 {
     let mut i = 0;
     let mut sum = 0;
     while i < all_ingredient.len()
     {
-        sum += checkallrange(&all_id_range, all_ingredient[i]);
-        i++;
+        sum += checkallrange(&all_id_range, all_ingredient[i].clone());
+        i+=1;
     }
     sum
 }
@@ -55,7 +63,8 @@ fn main()
     let mut count_line_empty = 0;
     let mut all_id_range: Vec<String> = Vec::new();
     let mut all_ingredients: Vec<String> = Vec::new(); 
-    if let Ok(lines) = read_lines("./file.txt"){
+    if let Ok(lines) = read_lines("file.txt"){
+
         for line in lines.map_while(Result::ok){
             let line_string = line.trim().to_string();
             if line.is_empty()
@@ -72,8 +81,8 @@ fn main()
             }
         }
     }
-    let sum = loopthrewvec(&all_id_range, &all_ingredient);
-    printlni!("{}", sum);
+    let sum = loopthrewvec(&all_id_range, &all_ingredients);
+    println!("{}", sum);
     //println!("{:?}", all_id_range);
     //println!("{:?}", all_ingredients);
 }
